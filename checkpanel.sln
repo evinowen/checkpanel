@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "checkpanel", "checkpanel.csproj", "{5178E90D-D59A-4BBB-A19E-943577319F24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5178E90D-D59A-4BBB-A19E-943577319F24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5178E90D-D59A-4BBB-A19E-943577319F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5178E90D-D59A-4BBB-A19E-943577319F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5178E90D-D59A-4BBB-A19E-943577319F24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF2B6F83-5F65-44C8-970A-078BFB811B12}
+	EndGlobalSection
+EndGlobal
