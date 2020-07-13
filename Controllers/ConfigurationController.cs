@@ -9,26 +9,16 @@ using checkpanel.Models;
 
 namespace checkpanel.Controllers
 {
-    public class HomeController : Controller
+    public class ConfigurationController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ConfigurationController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public ConfigurationController(ILogger<ConfigurationController> logger)
         {
             _logger = logger;
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Configuration()
-        {
-            return View();
-        }
-
-        public IActionResult History()
         {
             return View();
         }
