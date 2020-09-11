@@ -9,6 +9,7 @@ using checkpanel.Models;
 
 namespace checkpanel.Controllers
 {
+    [Route("Configuration")]
     public class ConfigurationController : Controller
     {
         private readonly ILogger<ConfigurationController> _logger;
@@ -18,6 +19,7 @@ namespace checkpanel.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();

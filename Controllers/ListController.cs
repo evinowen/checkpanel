@@ -9,28 +9,26 @@ using checkpanel.Models;
 
 namespace checkpanel.Controllers
 {
-    public class HomeController : Controller
+    [Route("List")]
+    public class ListController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ListController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public ListController(ILogger<ListController> logger)
         {
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Configuration()
+        [HttpPost("{id}")]
+        public IActionResult PunchItem(int id)
         {
-            return View();
-        }
-
-        public IActionResult History()
-        {
-            return View();
+            return LocalRedirect("/List");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
