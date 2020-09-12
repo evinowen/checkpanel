@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using checkpanel.Data;
 using checkpanel.Models;
 
 namespace checkpanel.Controllers
@@ -13,16 +14,18 @@ namespace checkpanel.Controllers
     public class ListController : Controller
     {
         private readonly ILogger<ListController> _logger;
+        private readonly SqlServerContext _context;
 
-        public ListController(ILogger<ListController> logger)
+        public ListController(ILogger<ListController> logger, SqlServerContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Items.ToList());
         }
 
         [HttpPost("{id}")]

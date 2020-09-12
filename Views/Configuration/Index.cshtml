@@ -1,7 +1,29 @@
-﻿@{
+﻿@model IEnumerable<checkpanel.Models.ItemModel>
+
+@{
     ViewData["Title"] = "checkpanel - configuration";
 }
 
 <div class="text-center" style="font-size: 1.2em;">
+    <div class="accordion" id="accordionExample">
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            @item.Id $emdash; @item.Summary
+                        </button>
+                    </h2>
+                </div>
 
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <input type="text" value="@item.Summary" />
+                        <textarea>@item.Detail</textarea>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
