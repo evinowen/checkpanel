@@ -8,5 +8,7 @@ namespace checkpanel.Models
         public int Id { get; set; }
         public string Summary { get; set; }
         public string Detail { get; set; }
+        public int DueHour { get; set; }
+        public int DueMinute { get; set; }
     }
 }

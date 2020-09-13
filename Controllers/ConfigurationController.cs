@@ -30,15 +30,26 @@ namespace checkpanel.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddItem(int id)
+        public IActionResult AddItem()
         {
-            return View();
+            return LocalRedirect("/Configuration");
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateItem()
+        [HttpPost("{id}")]
+        public IActionResult UpdateItem(int id, string Summary, string Detail, int DueHour, int DueMinute)
         {
-            return View();
+            var item = _context.Items.FirstOrDefault(item => item.Id == id);
+
+            if (item != null)
+            {
+                item.Summary = Summary;
+                item.Detail = Detail;
+                item.DueHour = DueHour;
+                item.DueMinute = DueMinute;
+
+                _context.SaveChanges();
+            }
+            return LocalRedirect("/Configuration");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
