@@ -12,5 +12,6 @@ namespace checkpanel.Data
         }
 
         public DbSet<ItemModel> Items { get; set; }
+        public DbSet<PunchModel> Punches { get; set; }
     }
 }
