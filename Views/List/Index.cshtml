@@ -1,16 +1,22 @@
-﻿@model IEnumerable<checkpanel.Models.ItemModel>
-
+﻿@model checkpanel.Models.ListViewModel
 @{
     ViewData["Title"] = "checkpanel";
 }
 
 <div class="text-center" style="font-size: 1.2em;">
-    @foreach (var item in Model)
+    @foreach ((ItemModel item, PunchModel punch) in Model.ListSet)
     {
-        <div class="form-check" class="p-4">
-            <form method="post" action="@Url.Action("PunchItem", "List", new { id = item.Id })">
-                <button type="submit" class="btn btn-success" onclick="">✓</button> @item.Summary
-            </form>
-        </div>
+    <div class="form-check p-4">
+        <form method="post" action="@Url.Action("PunchItem", "List", new { id = item.Id })">
+            @if ((item.Punches != null) && (item.Punches.Count > 0))
+            {
+            <button class="btn btn-success" onclick="">✓</button> @item.Summary
+            }
+            else
+            {
+            <button type="submit" class="btn btn-danger" onclick="">✗</button> @item.Summary
+            }
+        </form>
+    </div>
     }
 </div>

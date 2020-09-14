@@ -32,7 +32,7 @@
                                 <select class="form-control" name="DueHour">
                                     @for (var i = 0; i <= 24; i++)
                                     {
-                                        @if (item.DueHour == i)
+                                        if (item.DueHour == i)
                                         {
                                         <option selected>@i</option>
                                         }
@@ -45,7 +45,7 @@
                                 <select class="form-control" name="DueMinute">
                                     @for (var i = 0; i < 60; i += 15)
                                     {
-                                        @if (item.DueMinute == i)
+                                        if (item.DueMinute == i)
                                         {
                                         <option selected>@i</option>
                                         }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using checkpanel.Data;
 using checkpanel.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace checkpanel.Controllers
 {
@@ -25,12 +26,30 @@ namespace checkpanel.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_context.Items.ToList());
+            var model = new ListViewModel();
+
+            foreach (var item in _context.Items.ToList())
+            {
+                var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Today).ToList();
+                model.ListSet.Add((item, punches.Count > 0 ? punches.First() : null));
+            }
+
+            return View(model);
         }
 
         [HttpPost("{id}")]
         public IActionResult PunchItem(int id)
         {
+            var item = _context.Items.FirstOrDefault(item => item.Id == id);
+
+            if (item != null)
+            {
+                var punch = new PunchModel{ Item = item, CreatedAt = DateTime.Now };
+                _context.Punches.Add(punch);
+
+                _context.SaveChanges();
+            }
+
             return LocalRedirect("/List");
         }
 
