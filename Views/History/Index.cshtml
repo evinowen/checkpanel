@@ -1,11 +1,12 @@
-﻿@{
+﻿@model IEnumerable<checkpanel.Models.HistoryModel>
+
+@{
     ViewData["Title"] = "checkpanel";
 }
 
-    <div class="text-center" style="font-size: 1.2em;">
-
-        <p>
-            No entries
-        </p>
-
-    </div>
+<div class="text-center" style="font-size: 1.2em;">
+    @foreach (var item in Model)
+    {
+    <div>@item.Summary &mdash; @item.Detail</div>
+    }
+</div>
