@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -42,13 +43,22 @@ namespace checkpanel.Controllers
 
             if (item != null)
             {
+                var json_before = JsonSerializer.Serialize(item);
+
                 item.Summary = Summary;
                 item.Detail = Detail;
                 item.DueHour = DueHour;
                 item.DueMinute = DueMinute;
 
+                item.ModifiedAt = DateTime.Now;
+
+                var json_after = JsonSerializer.Serialize(item);
+
+                _context.Histories.Add(item.record("Configured Item", $"Data Before: {json_before}\nData After: {json_after}\n"));
+
                 _context.SaveChanges();
             }
+
             return LocalRedirect("/Configuration");
         }
 

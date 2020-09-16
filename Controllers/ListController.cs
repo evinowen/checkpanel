@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -44,6 +45,9 @@ namespace checkpanel.Controllers
 
             if (item != null)
             {
+                var json = JsonSerializer.Serialize(item);
+                _context.Histories.Add(item.record("Punched Item", $"Data Punched: {json}\n"));
+
                 var punch = new PunchModel{ Item = item, CreatedAt = DateTime.Now };
                 _context.Punches.Add(punch);
 
