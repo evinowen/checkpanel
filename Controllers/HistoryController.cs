@@ -23,9 +23,19 @@ namespace checkpanel.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        [HttpGet("{Page}")]
+        public IActionResult Index(int Page = 1)
         {
-            return View(_context.Histories.ToList());
+            var model = new HistoryViewModel();
+
+            model.CurrentPage = Page;
+
+            model.TotalItems = _context.Histories.Count();
+            model.TotalPages = (int) Math.Ceiling(((double) model.TotalItems) / ((double) model.ItemsPerPage));
+
+            model.Records = _context.Histories.Skip(model.ItemsPerPage * (model.CurrentPage - 1)).Take(model.ItemsPerPage).ToList();
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
