@@ -31,8 +31,26 @@ namespace checkpanel.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddItem()
+        public IActionResult AddItem(string Summary, string Detail, int DueHour, int DueMinute)
         {
+            var item = new ItemModel();
+
+            var history = item.Record("Configuration");
+
+            item.Summary = Summary;
+            item.Detail = Detail;
+            item.DueHour = DueHour;
+            item.DueMinute = DueMinute;
+
+            item.ModifiedAt = DateTime.Now;
+
+            history.CaptureAfterData(item);
+
+            _context.Items.Add(item);
+            _context.Histories.Add(history);
+
+            _context.SaveChanges();
+
             return LocalRedirect("/Configuration");
         }
 

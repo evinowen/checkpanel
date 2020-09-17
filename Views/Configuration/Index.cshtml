@@ -69,4 +69,55 @@
             </div>
         }
     </div>
+    <br />
+    <hr />
+    <br />
+    <div>
+        <form method="post" action="@Url.Action("AddItem", "Configuration")">
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Summary</label>
+                </div>
+                <input type="text" class="form-control" placeholder="Summary" name="Summary" />
+            </div>
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Due</label>
+                </div>
+                <select class="form-control" name="DueHour">
+                    @for (var i = 0; i <= 24; i++)
+                    {
+                        if (i == 24)
+                        {
+                        <option selected>@i</option>
+                        }
+                        else
+                        {
+                        <option>@i</option>
+                        }
+                    }
+                </select>
+                <select class="form-control" name="DueMinute">
+                    @for (var i = 0; i < 60; i += 15)
+                    {
+                        if (i == 0)
+                        {
+                        <option selected>@i</option>
+                        }
+                        else
+                        {
+                        <option>@i</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Detail</label>
+                </div>
+                <textarea class="form-control" name="Detail"></textarea>
+            </div>
+            <button class="form-control mb-1" type="submit">Save!</button>
+        </form>
+    </div>
 </div>
