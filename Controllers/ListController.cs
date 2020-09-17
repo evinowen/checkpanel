@@ -29,7 +29,7 @@ namespace checkpanel.Controllers
         {
             var model = new ListViewModel();
 
-            foreach (var item in _context.Items.ToList())
+            foreach (var item in _context.Items.Where(i => i.DeletedAt == null).ToList())
             {
                 var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Today).ToList();
                 model.ListSet.Add((item, punches.Count > 0 ? punches.First() : null));

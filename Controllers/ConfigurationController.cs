@@ -27,7 +27,7 @@ namespace checkpanel.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_context.Items.ToList());
+            return View(_context.Items.Where(i => i.DeletedAt == null).ToList());
         }
 
         [HttpPost]
@@ -55,7 +55,7 @@ namespace checkpanel.Controllers
         }
 
         [HttpPost("{id}")]
-        public IActionResult UpdateItem(int id, string Summary, string Detail, int DueHour, int DueMinute)
+        public IActionResult UpdateItem(int id, string Summary, string Detail, int DueHour, int DueMinute, string Delete)
         {
             var item = _context.Items.FirstOrDefault(item => item.Id == id);
 
@@ -64,12 +64,17 @@ namespace checkpanel.Controllers
                 var history = item.Record("Configuration");
                 history.CaptureBeforeData(item);
 
+                item.ModifiedAt = DateTime.Now;
+
                 item.Summary = Summary;
                 item.Detail = Detail;
                 item.DueHour = DueHour;
                 item.DueMinute = DueMinute;
 
-                item.ModifiedAt = DateTime.Now;
+                if (Delete == "on")
+                {
+                    item.DeletedAt = DateTime.Now;
+                }
 
                 history.CaptureAfterData(item);
 
