@@ -45,8 +45,9 @@ namespace checkpanel.Controllers
 
             if (item != null)
             {
-                var json = JsonSerializer.Serialize(item);
-                _context.Histories.Add(item.record("Punched Item", $"Data Punched: {json}\n"));
+                var history = item.Record("Punch");
+                history.CaptureBeforeData(item);
+                _context.Histories.Add(history);
 
                 var punch = new PunchModel{ Item = item, CreatedAt = DateTime.Now };
                 _context.Punches.Add(punch);

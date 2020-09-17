@@ -21,7 +21,7 @@ namespace checkpanel.Models
         [JsonIgnore]
         public List<PunchModel> Punches { get; set; }
 
-        public HistoryModel record(string Summary, string Detail)
+        public HistoryModel Record(string Summary, string Detail = "")
         {
             HistoryModel history = new HistoryModel();
 

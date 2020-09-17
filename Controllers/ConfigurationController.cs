@@ -43,7 +43,8 @@ namespace checkpanel.Controllers
 
             if (item != null)
             {
-                var json_before = JsonSerializer.Serialize(item);
+                var history = item.Record("Configuration");
+                history.CaptureBeforeData(item);
 
                 item.Summary = Summary;
                 item.Detail = Detail;
@@ -52,9 +53,9 @@ namespace checkpanel.Controllers
 
                 item.ModifiedAt = DateTime.Now;
 
-                var json_after = JsonSerializer.Serialize(item);
+                history.CaptureAfterData(item);
 
-                _context.Histories.Add(item.record("Configured Item", $"Data Before: {json_before}\nData After: {json_after}\n"));
+                _context.Histories.Add(history);
 
                 _context.SaveChanges();
             }
