@@ -33,7 +33,7 @@ namespace checkpanel.Controllers
             model.TotalItems = _context.Histories.Count();
             model.TotalPages = (int) Math.Ceiling(((double) model.TotalItems) / ((double) model.ItemsPerPage));
 
-            model.Records = _context.Histories.Skip(model.ItemsPerPage * (model.CurrentPage - 1)).Take(model.ItemsPerPage).ToList();
+            model.Records = _context.Histories.OrderByDescending(h => h.RecordedAt).Skip(model.ItemsPerPage * (model.CurrentPage - 1)).Take(model.ItemsPerPage).ToList();
 
             return View(model);
         }
