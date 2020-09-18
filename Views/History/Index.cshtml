@@ -97,9 +97,26 @@
                 <td>@item.RecordedAt</td>
                 <td>@item.Summary</td>
                 <td>@item.Detail</td>
-                <td><button></button></td>
+                <td>
+                    <button class="form-control btn btn-outline-primary" data-toggle="collapse" data-target="#item-collapse-@item.Id" aria-expanded="true" aria-controls="item-collapse-@item.Id">
+                        JSON
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="p-0">
+                    <div id="item-collapse-@item.Id" class="collapse">
+                        <div class="p-4">
+                            <label for="item-before-@item.Id">Before</label>
+                            <code id="item-before-@item.Id" style="display: block; font-family: 'Courier New', monospace; white-space: pre-wrap; font-size: 0.8em;">@item.BeforeJSON</code>
+                            <hr />
+                            <label for="item-after-@item.Id">After</label>
+                            <code id="item-after-@item.Id" style="display: block; font-family: 'Courier New', monospace; white-space: pre-wrap; font-size: 0.8em;">@item.AfterJSON</code>
+                        </div>
+                    </div>
+                </td>
             </tr>
         }
-    </tbody>
+        </tbody>
 </table>
 @{ PageNavigation(Model.CurrentPage, Model.TotalPages); }
