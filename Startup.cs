@@ -26,6 +26,15 @@ namespace checkpanel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews();
             services.AddDbContext<SqlServerContext>(options =>
             {
@@ -60,6 +69,24 @@ namespace checkpanel
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
+
+            app.MapWhen(context => !context.Request.Path.StartsWithSegments("/Login"), app =>
+            {
+                app.Use(async (context, next) =>
+                {
+                    var name = context.Session.GetString("authorization");
+
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        context.Response.Redirect("/Login");
+                        return;
+                    }
+
+                    await next.Invoke();
+                });
+            });
 
             app.UseEndpoints(endpoints =>
             {
