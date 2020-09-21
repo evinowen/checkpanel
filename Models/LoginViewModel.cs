@@ -7,6 +7,6 @@ namespace checkpanel.Models
 {
     public class LoginViewModel
     {
-        public int Code;
+        public String Authentication;
     }
 }
