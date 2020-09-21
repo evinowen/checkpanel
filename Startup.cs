@@ -73,13 +73,13 @@ namespace checkpanel
 
             app.UseSession();
 
-            app.MapWhen(context => !context.Request.Path.StartsWithSegments("/Login"), app =>
+            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Login"), app =>
             {
                 app.Use(async (context, next) =>
                 {
-                    var name = context.Session.GetString("authorization");
+                    var state = context.Session.GetString("State");
 
-                    if (string.IsNullOrWhiteSpace(name))
+                    if (state != "Authenticated")
                     {
                         context.Response.Redirect("/Login");
                         return;

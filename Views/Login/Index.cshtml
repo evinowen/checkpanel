@@ -1,3 +1,23 @@
 ﻿@model checkpanel.Models.LoginViewModel
 
-<div>@Model.Authentication</div>
+<div class="card">
+    <div class="card-header p-1">
+        Authenticate
+    </div>
+    <div class="card-body">
+        @if (Model.State == "Generated")
+        {
+            <form method="post" action="@Url.Action("Validate", "Login")">
+                <input type="text" class="form-control" placeholder="000000" name="Authentication" />
+                <button class="form-control btn btn-primary" type="submit">Submit</button>
+            </form>
+        }
+        else
+        {
+
+            <form method="post" action="@Url.Action("Generate", "Login")">
+                <button class="form-control btn btn-secondary" type="submit">Generate</button>
+            </form>
+        }
+    </div>
+</div>

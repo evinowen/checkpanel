@@ -16,10 +16,19 @@ namespace checkpanel.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var model = new LoginViewModel { State = HttpContext.Session.GetString("State") };
+
+            return View(model);
+        }
+
+        [HttpPost("generate")]
+        public IActionResult Generate()
+        {
 
             Random generator = new Random();
             string authentication = generator.Next(0, 999999).ToString("D6");
 
+            HttpContext.Session.SetString("State", "Generated");
             HttpContext.Session.SetString("Authentication", authentication);
 
             var twilio_account_sid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
@@ -35,9 +44,19 @@ namespace checkpanel.Controllers
                 to: new Twilio.Types.PhoneNumber(twilio_telephone_to)
             );
 
-            var model = new LoginViewModel { Authentication = authentication };
+            return LocalRedirect("/Login");
+        }
 
-            return View(model);
+        [HttpPost("validate")]
+        public IActionResult Validate(string authentication)
+        {
+            if (authentication == HttpContext.Session.GetString("Authentication"))
+            {
+                HttpContext.Session.SetString("State", "Authenticated");
+                return LocalRedirect("/List");
+            }
+
+            return LocalRedirect("/Login");
         }
     }
 }
