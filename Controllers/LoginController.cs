@@ -1,18 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Unicode;
+using System.Text.Encodings.Web;
 using checkpanel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
+using Azure.Storage.Queues;
 
 namespace checkpanel.Controllers
 {
     [Route("Login")]
     public class LoginController : Controller
     {
+        public class SendAuthenticationCodeModel
+        {
+            public string Authentication { get; set; }
+            public string Telephone { get; set; }
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -31,18 +36,25 @@ namespace checkpanel.Controllers
             HttpContext.Session.SetString("State", "Generated");
             HttpContext.Session.SetString("Authentication", authentication);
 
-            var twilio_account_sid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-            var twilio_auth_token = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
-            var twilio_telephone_from = Environment.GetEnvironmentVariable("TWILIO_TELEPHONE_FROM");
             var twilio_telephone_to = Environment.GetEnvironmentVariable("TWILIO_TELEPHONE_TO");
 
-            TwilioClient.Init(twilio_account_sid, twilio_auth_token);
+            var queue_connection_string = Environment.GetEnvironmentVariable("AZURE_QUEUE_CONNECTION");
+            var queue_name = Environment.GetEnvironmentVariable("AZURE_QUEUE_SEND_AUTHENTICATION_CODE");
 
-            var message = MessageResource.Create(
-                body: $"checkpanel: {authentication}",
-                from: new Twilio.Types.PhoneNumber(twilio_telephone_from),
-                to: new Twilio.Types.PhoneNumber(twilio_telephone_to)
-            );
+            QueueClient queue = new QueueClient(queue_connection_string, queue_name);
+
+            var data = new SendAuthenticationCodeModel
+            {
+                Authentication = authentication,
+                Telephone = twilio_telephone_to
+            };
+
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+            };
+
+            queue.SendMessage(JsonSerializer.Serialize(data));
 
             return LocalRedirect("/Login");
         }
