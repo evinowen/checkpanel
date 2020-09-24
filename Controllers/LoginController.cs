@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Text;
 using System.Text.Json;
-using System.Text.Unicode;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using checkpanel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Azure.Storage.Queues;
+using Microsoft.Azure.ServiceBus;
+using Microsoft.Extensions.Configuration;
 
 namespace checkpanel.Controllers
 {
@@ -18,6 +20,13 @@ namespace checkpanel.Controllers
             public string Telephone { get; set; }
         }
 
+        private readonly IConfiguration _configuration;
+
+        public LoginController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -27,7 +36,7 @@ namespace checkpanel.Controllers
         }
 
         [HttpPost("generate")]
-        public IActionResult Generate()
+        public async Task<IActionResult> Generate()
         {
 
             Random generator = new Random();
@@ -36,10 +45,10 @@ namespace checkpanel.Controllers
             HttpContext.Session.SetString("State", "Generated");
             HttpContext.Session.SetString("Authentication", authentication);
 
-            var twilio_telephone_to = Environment.GetEnvironmentVariable("TWILIO_TELEPHONE_TO");
+            var twilio_telephone_to = _configuration["TWILIO_TELEPHONE_TO"];
 
-            var queue_connection_string = Environment.GetEnvironmentVariable("AZURE_QUEUE_CONNECTION");
-            var queue_name = Environment.GetEnvironmentVariable("AZURE_QUEUE_SEND_AUTHENTICATION_CODE");
+            var queue_connection_string = _configuration["AZURE_QUEUE_CONNECTION"];
+            var queue_name = _configuration["AZURE_QUEUE_SEND_AUTHENTICATION_CODE"];
 
             QueueClient queue = new QueueClient(queue_connection_string, queue_name);
 
@@ -49,12 +58,15 @@ namespace checkpanel.Controllers
                 Telephone = twilio_telephone_to
             };
 
-            JsonSerializerOptions options = new JsonSerializerOptions
+            var options = new JsonSerializerOptions
             {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
 
-            queue.SendMessage(JsonSerializer.Serialize(data));
+            var json = JsonSerializer.Serialize(data, options);
+            Message message = new Message(Encoding.ASCII.GetBytes(json));
+
+            await queue.SendAsync(message);
 
             return LocalRedirect("/Login");
         }
