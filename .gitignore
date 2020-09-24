@@ -3,3 +3,5 @@
 [Ll]og/
 
 .vs/
+
+appsettings.Development.json
