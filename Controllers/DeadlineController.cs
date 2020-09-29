@@ -57,7 +57,8 @@ namespace checkpanel.Controllers
 
             foreach (var item in items)
             {
-                var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Today).ToList();
+
+                var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Now.Date).ToList();
 
                 if (punches.Count > 0)
                 {

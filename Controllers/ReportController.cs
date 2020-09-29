@@ -70,7 +70,7 @@ namespace checkpanel.Controllers
                     {
                         points_available++;
 
-                        var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Today.AddDays(-1)).ToList();
+                        var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Now.Date.AddDays(-1)).ToList();
 
                         if (punches.Count > 0)
                         {
