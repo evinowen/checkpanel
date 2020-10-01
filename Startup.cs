@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -73,26 +75,61 @@ namespace checkpanel
 
             app.UseSession();
 
-            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/Login"), app =>
-            {
-                app.Use(async (context, next) =>
-                {
-                    var state = context.Session.GetString("State");
-
-                    if (state != "Authenticated")
+            app.UseWhen(
+                context => !context.Request.Path.StartsWithSegments("/Login"),
+                app => {
+                    app.Use(async (context, next) =>
                     {
-                        context.Response.Redirect("/Login");
-                        return;
-                    }
+                        var state = context.Session.GetString("State");
 
-                    await next.Invoke();
-                });
-            });
+                        bool redirect = true;
+
+                        if (state == "Authenticated")
+                        {
+                            redirect = false;
+                        }
+
+                        if (context.Request.Path.StartsWithSegments("/api"))
+                        {
+                            if (context.Request.Headers.ContainsKey("Authorization"))
+                            {
+                                string header = context.Request.Headers["Authorization"];
+                                string token = header.Substring("Bearer ".Length).Trim();
+
+                                if (CheckAuthorizationToken(token))
+                                {
+                                    redirect = false;
+                                }
+                            }
+                        }
+
+                        if (redirect) {
+                            context.Response.Redirect("/Login");
+                            return;
+                        }
+
+                        await next.Invoke();
+                    });
+                }
+            );
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private bool CheckAuthorizationToken(string token)
+        {
+            byte[] hash = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Configuration["API_KEY"]));
+
+            StringBuilder builder = new StringBuilder();
+            foreach (byte b in hash)
+            {
+                builder.Append(b.ToString("X2"));
+            }
+
+            return token == builder.ToString();
         }
     }
 }
