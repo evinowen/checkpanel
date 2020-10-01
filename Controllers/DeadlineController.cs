@@ -51,8 +51,8 @@ namespace checkpanel.Controllers
 
             var items = _context.Items
                 .Where(i => i.DeletedAt == null)
-                .Where(i => (i.DueHour * 60) + i.DueMinute <= deadline_minutes)
-                .Where(i => (i.DueHour * 60) + i.DueMinute > deadline_minutes - 60)
+                .Where(i => (i.DueHour * 60) + i.DueMinute >= deadline_minutes)
+                .Where(i => (i.DueHour * 60) + i.DueMinute < deadline_minutes + 60)
                 .ToList();
 
             foreach (var item in items)
@@ -75,7 +75,7 @@ namespace checkpanel.Controllers
                 var data = new SendDeadlineNotice
                 {
                     Summary = item.Summary,
-                    Deadline = ((item.DueHour * 60) + item.DueMinute - deadline_minutes) * -1,
+                    Deadline = ((item.DueHour * 60) + item.DueMinute - deadline_minutes),
                     Telephone = twilio_telephone_to
                 };
 
