@@ -8,15 +8,15 @@
         @if (Model.State == "Generated")
         {
             <form method="post" action="@Url.Action("Validate", "Login")">
-                <input type="text" class="form-control" placeholder="000000" name="Authentication" />
-                <button class="form-control btn btn-primary" type="submit">Submit</button>
+                <input type="text" class="form-control text-center" placeholder="000000" name="Authentication" />
+                <button class="form-control btn btn-primary mt-3" type="submit">Submit</button>
             </form>
         }
         else
         {
 
             <form method="post" action="@Url.Action("Generate", "Login")">
-                <button class="form-control btn btn-secondary" type="submit">Generate</button>
+                <button class="form-control btn btn-secondary mt-3" type="submit">Generate</button>
             </form>
         }
     </div>

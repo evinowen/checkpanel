@@ -8,19 +8,19 @@
     {
     <div class="form-check p-4">
         <form method="post" action="@Url.Action("PunchItem", "List", new { id = item.Id })">
-            <div class="row">
-                <div class="col-1">
-                    @if (punch != null)
-                    {
-                    <button href="#" class="btn btn-success">✓</button>
-                    }
-                    else
-                    {
-                    <button type="submit" class="btn btn-danger">✗</button>
-                    }
+            <div>
+                <div class="float-left" style="height: auto; top: 0; bottom: 0;">
+                @if (punch != null)
+                {
+                <button href="#" class="btn btn-success mx-3">✓</button>
+                }
+                else
+                {
+                <button type="submit" class="btn btn-danger mx-3 mb-6">✗</button>
+                }
                 </div>
-                <div class="col text-left">
-                    <div>@item.Summary</div>
+                <div class="text-left">
+                <div>@item.Summary</div>
                     @if (punch != null)
                     {
                     <div>Punched at @punch.CreatedAt</div>

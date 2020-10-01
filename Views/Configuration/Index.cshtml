@@ -5,80 +5,98 @@
 }
 
 <div class="text-center" style="font-size: 1.2em;">
-    <div class="accordion" id="items-accordion" style="border-bottom: 1px solid lightgrey">
+    <div class="accordion" id="items-accordion">
         @foreach (var item in Model)
         {
             <div class="card">
                 <div class="card-header p-1" id="item-header-@item.Id">
-                    <button class="form-control btn btn-outline-primary text-left" type="button" data-toggle="collapse" data-target="#item-collapse-@item.Id" aria-expanded="true" aria-controls="item-collapse-@item.Id">
-                        @item.Summary <div class="float-right">@item.DueHour:@item.DueMinute</div>
+                    <button class="form-control btn btn-dark btn-outline-primary text-left" type="button" data-toggle="collapse" data-target="#item-collapse-@item.Id" aria-expanded="true" aria-controls="item-collapse-@item.Id">
+                        @item.Summary <div class="float-right" style="font-family: monospace;">@string.Format("{0:00}", item.DueHour):@string.Format("{0:00}", item.DueMinute)</div>
                     </button>
                 </div>
                 <div id="item-collapse-@item.Id" class="collapse" aria-labelledby="item-header-@item.Id" data-parent="#items-accordion">
                     <div class="card-body">
                         <form method="post" action="@Url.Action("UpdateItem", "Configuration" , new { id=item.Id })">
-                            <div class="input-group mb-1">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text">Summary</label>
+                            <div class="row">
+                                <div class="col-9 pr-0">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text">Summary</label>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Summary" name="Summary" value="@item.Summary" />
+                                    </div>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Summary" name="Summary" value="@item.Summary" />
-                            </div>
-                            <div class="input-group mb-1">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text">Due</label>
-                                </div>
-                                <select class="form-control" name="DueHour">
-                                    @for (var i = 0; i <= 24; i++)
-                                    {
-                                        if (item.DueHour == i)
-                                        {
-                                        <option selected>@i</option>
-                                        }
-                                        else
-                                        {
-                                        <option>@i</option>
-                                        }
-                                    }
-                                </select>
-                                <select class="form-control" name="DueMinute">
-                                    @for (var i = 0; i < 60; i += 15)
-                                    {
-                                        if (item.DueMinute == i)
-                                        {
-                                        <option selected>@i</option>
-                                        }
-                                        else
-                                        {
-                                        <option>@i</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="input-group mb-1">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text">Detail</label>
-                                </div>
-                                <textarea class="form-control" name="Detail">@item.Detail</textarea>
-                            </div>
-
-                            <hr />
-
-                            <div class="card mb-2">
-                                <div class="card-header" id="item-header-delete-@item.Id">
-                                    <button class="form-control btn btn-danger" type="button" data-toggle="collapse" data-target="#item-collapse-delete-@item.Id" aria-expanded="false" aria-controls="item-collapse-delete-@item.Id">Delete?</button>
-                                </div>
-                                <div id="item-collapse-delete-@item.Id" class="collapse" aria-labelledby="item-header-delete-@item.Id" data-parent="#item-collapse-@item.Id">
-                                    <div class="card-body">
-                                        <input name="Delete" type="checkbox" onChange="this.form.submit()" />
+                                <div class="col-3 pl-0">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text">Due</label>
+                                        </div>
+                                        <select class="form-control" name="DueHour" style="font-family: monospace;">
+                                            @for (var i = 0; i <= 24; i++)
+                                            {
+                                                if (item.DueHour == i)
+                                                {
+                                                <option selected>@string.Format("{0:00}", i)</option>
+                                                }
+                                                else
+                                                {
+                                                <option>@string.Format("{0:00}", i)</option>
+                                                }
+                                            }
+                                        </select>
+                                        <select class="form-control" name="DueMinute" style="font-family: monospace;">
+                                            @for (var i = 0; i < 60; i += 15)
+                                            {
+                                                if (item.DueMinute == i)
+                                                {
+                                                <option selected>@string.Format("{0:00}", i)</option>
+                                                }
+                                                else
+                                                {
+                                                <option>@string.Format("{0:00}", i)</option>
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="card">
-                                <div class="card-header">
-                                    <button class="form-control btn btn-success" type="submit">Save!</button>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text">Detail</label>
+                                        </div>
+                                        <textarea class="form-control" name="Detail">@item.Detail</textarea>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card mb-1">
+                                        <div class="card-header" id="item-header-delete-@item.Id">
+                                            <button class="form-control btn btn-danger" type="button" data-toggle="collapse" data-target="#item-collapse-delete-@item.Id" aria-expanded="false" aria-controls="item-collapse-delete-@item.Id">Delete?</button>
+                                        </div>
+                                        <div id="item-collapse-delete-@item.Id" class="collapse" aria-labelledby="item-header-delete-@item.Id" data-parent="#item-collapse-@item.Id">
+                                            <div class="card-body">
+                                                <input name="Delete" type="checkbox" onChange="this.form.submit()" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <button class="form-control btn btn-success" type="submit">Save!</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -90,62 +108,79 @@
     <br />
     <div class="card">
         <div class="card-header p-1">
-            <button class="form-control btn btn-outline-secondary text-left" type="button" disabled>
-                New Item <div class="float-right">--:--</div>
+            <button class="form-control btn btn-dark btn-outline-light text-left" type="button" disabled>
+                New Item <div class="float-right" style="font-family: monospace;">--:--</div>
             </button>
         </div>
         <div>
             <div class="card-body">
                 <form method="post" action="@Url.Action("AddItem", "Configuration")">
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text">Summary</label>
+
+                    <div class="row">
+                        <div class="col-9 pr-0">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Summary</label>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Summary" name="Summary" />
+                            </div>
                         </div>
-                        <input type="text" class="form-control" placeholder="Summary" name="Summary" />
-                    </div>
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text">Due</label>
+                        <div class="col-3 pl-0">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Due</label>
+                                </div>
+                                <select class="form-control" name="DueHour" style="font-family: monospace;">
+                                    @for (var i = 0; i <= 24; i++)
+                                    {
+                                        if (i == 24)
+                                        {
+                                        <option selected>@string.Format("{0:00}", i)</option>
+                                        }
+                                        else
+                                        {
+                                        <option>@string.Format("{0:00}", i)</option>
+                                        }
+                                    }
+                                </select>
+                                <select class="form-control" name="DueMinute" style="font-family: monospace;">
+                                    @for (var i = 0; i < 60; i += 15)
+                                    {
+                                        if (i == 0)
+                                        {
+                                        <option selected>@string.Format("{0:00}", i)</option>
+                                        }
+                                        else
+                                        {
+                                        <option>@string.Format("{0:00}", i)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
                         </div>
-                        <select class="form-control" name="DueHour">
-                            @for (var i = 0; i <= 24; i++)
-                            {
-                                if (i == 24)
-                                {
-                                <option selected>@i</option>
-                                }
-                                else
-                                {
-                                <option>@i</option>
-                                }
-                            }
-                        </select>
-                        <select class="form-control" name="DueMinute">
-                            @for (var i = 0; i < 60; i += 15)
-                            {
-                                if (i == 0)
-                                {
-                                <option selected>@i</option>
-                                }
-                                else
-                                {
-                                <option>@i</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text">Detail</label>
-                        </div>
-                        <textarea class="form-control" name="Detail"></textarea>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <button class="form-control btn btn-success" type="submit">Save!</button>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Detail</label>
+                                </div>
+                                <textarea class="form-control" name="Detail"></textarea>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <button class="form-control btn btn-success" type="submit">Save!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
