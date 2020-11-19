@@ -66,11 +66,40 @@ namespace checkpanel.Controllers
                     var points_earned = 0;
                     var points_available = 0;
 
-                    foreach (var item in _context.Items.Where(i => i.DeletedAt == null).ToList())
+                    var yesterday = DateTime.Now.AddDays(-1);
+
+                    var items = _context.Items.Where(i => i.DeletedAt == null);
+
+                    switch (yesterday.DayOfWeek)
+                    {
+                        case DayOfWeek.Sunday:
+                            items = items.Where(i => i.Sunday == true);
+                            break;
+                        case DayOfWeek.Monday:
+                            items = items.Where(i => i.Monday == true);
+                            break;
+                        case DayOfWeek.Tuesday:
+                            items = items.Where(i => i.Tuesday == true);
+                            break;
+                        case DayOfWeek.Wednesday:
+                            items = items.Where(i => i.Wednesday == true);
+                            break;
+                        case DayOfWeek.Thursday:
+                            items = items.Where(i => i.Thursday == true);
+                            break;
+                        case DayOfWeek.Friday:
+                            items = items.Where(i => i.Friday == true);
+                            break;
+                        case DayOfWeek.Saturday:
+                            items = items.Where(i => i.Sunday == true);
+                            break;
+                    }
+
+                    foreach (var item in items.ToList())
                     {
                         points_available++;
 
-                        var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Now.Date.AddDays(-1)).ToList();
+                        var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == yesterday.Date).ToList();
 
                         if (punches.Count > 0)
                         {
