@@ -28,8 +28,34 @@ namespace checkpanel.Controllers
         public IActionResult Index()
         {
             var model = new ListViewModel();
+            var items = _context.Items.Where(i => i.DeletedAt == null);
 
-            foreach (var item in _context.Items.Where(i => i.DeletedAt == null).ToList())
+            switch (DateTime.Now.DayOfWeek)
+            {
+                case DayOfWeek.Sunday:
+                    items = items.Where(i => i.Sunday == true);
+                    break;
+                case DayOfWeek.Monday:
+                    items = items.Where(i => i.Monday == true);
+                    break;
+                case DayOfWeek.Tuesday:
+                    items = items.Where(i => i.Tuesday == true);
+                    break;
+                case DayOfWeek.Wednesday:
+                    items = items.Where(i => i.Wednesday == true);
+                    break;
+                case DayOfWeek.Thursday:
+                    items = items.Where(i => i.Thursday == true);
+                    break;
+                case DayOfWeek.Friday:
+                    items = items.Where(i => i.Friday == true);
+                    break;
+                case DayOfWeek.Saturday:
+                    items = items.Where(i => i.Sunday == true);
+                    break;
+            }
+
+            foreach (var item in items.ToList())
             {
                 var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Now.Date).ToList();
                 model.ListSet.Add((item, punches.Count > 0 ? punches.First() : null));

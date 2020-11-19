@@ -11,7 +11,54 @@
             <div class="card">
                 <div class="card-header p-1" id="item-header-@item.Id">
                     <button class="form-control btn btn-dark btn-outline-primary text-left" type="button" data-toggle="collapse" data-target="#item-collapse-@item.Id" aria-expanded="true" aria-controls="item-collapse-@item.Id">
-                        @item.Summary <div class="float-right" style="font-family: monospace;">@string.Format("{0:00}", item.DueHour):@string.Format("{0:00}", item.DueMinute)</div>
+                        @item.Summary
+                        <div class="float-right" style="font-family: monospace;">
+                            @{
+                                if (item.Sunday == true && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == true)
+                                {
+                                    <text>All </text>
+                                }
+                                else if (item.Sunday == false && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == false)
+                                {
+                                    <text>Weekdays </text>
+                                }
+                                else if (item.Sunday == true && item.Monday == false && item.Tuesday == false && item.Wednesday == false && item.Thursday == false && item.Friday == false && item.Saturday == true)
+                                {
+                                    <text>Weekends </text>
+                                }
+                                else
+                                {
+                                    if (item.Sunday == true)
+                                    {
+                                        <text>Sun </text>
+                                    }
+                                    if (item.Monday == true)
+                                    {
+                                        <text>Mon </text>
+                                    }
+                                    if (item.Tuesday == true)
+                                    {
+                                        <text>Tue </text>
+                                    }
+                                    if (item.Wednesday == true)
+                                    {
+                                        <text>Wed </text>
+                                    }
+                                    if (item.Thursday == true)
+                                    {
+                                        <text>Thu </text>
+                                    }
+                                    if (item.Friday == true)
+                                    {
+                                        <text>Fri </text>
+                                    }
+                                    if (item.Saturday == true)
+                                    {
+                                        <text>Sat </text>
+                                    }
+                                }
+                            }
+                        </div>
                     </button>
                 </div>
                 <div id="item-collapse-@item.Id" class="collapse" aria-labelledby="item-header-@item.Id" data-parent="#items-accordion">
@@ -57,6 +104,58 @@
                                                 }
                                             }
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row pb-1 m-auto">
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Sunday == true ? "active" : "")">
+                                            <input name="Sunday" type="checkbox" @(item.Sunday == true ? "checked" : "") autocomplete="off"> Sunday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Monday == true ? "active" : "")">
+                                            <input name="Monday" type="checkbox" @(item.Monday == true ? "checked" : "") autocomplete="off"> Monday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Tuesday == true ? "active" : "")">
+                                            <input name="Tuesday" type="checkbox" @(item.Tuesday == true ? "checked" : "") autocomplete="off"> Tuesday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Wednesday == true ? "active" : "")">
+                                            <input name="Wednesday" type="checkbox" @(item.Wednesday == true ? "checked" : "") autocomplete="off"> Wednesday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Thursday == true ? "active" : "")">
+                                            <input name="Thursday" type="checkbox" @(item.Thursday == true ? "checked" : "") autocomplete="off"> Thursday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Friday == true ? "active" : "")">
+                                            <input name="Friday" type="checkbox" @(item.Friday == true ? "checked" : "") autocomplete="off"> Friday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Saturday == true ? "active" : "")">
+                                            <input name="Saturday" type="checkbox" @(item.Saturday == true ? "checked" : "") autocomplete="off"> Saturday
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -156,6 +255,58 @@
                                         }
                                     }
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pb-1 m-auto">
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Sunday" type="checkbox" checked autocomplete="off"> Sunday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Monday" type="checkbox" checked autocomplete="off"> Monday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Tuesday" type="checkbox" checked autocomplete="off"> Tuesday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Wednesday" type="checkbox" checked autocomplete="off"> Wednesday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Thursday" type="checkbox" checked autocomplete="off"> Thursday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Friday" type="checkbox" checked autocomplete="off"> Friday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Saturday" type="checkbox" checked autocomplete="off"> Saturday
+                                </label>
                             </div>
                         </div>
                     </div>

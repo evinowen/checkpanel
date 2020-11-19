@@ -31,7 +31,7 @@ namespace checkpanel.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddItem(string Summary, string Detail, int DueHour, int DueMinute)
+        public IActionResult AddItem(int id, string Summary, string Detail, int DueHour, int DueMinute, string Sunday, string Monday, string Tuesday, string Wednesday, string Thursday, string Friday, string Saturday)
         {
             var item = new ItemModel();
 
@@ -41,6 +41,14 @@ namespace checkpanel.Controllers
             item.Detail = Detail;
             item.DueHour = DueHour;
             item.DueMinute = DueMinute;
+
+            item.Sunday = Sunday == "on";
+            item.Monday = Monday == "on";
+            item.Tuesday = Tuesday == "on";
+            item.Wednesday = Wednesday == "on";
+            item.Thursday = Thursday == "on";
+            item.Friday = Friday == "on";
+            item.Saturday = Saturday == "on";
 
             item.ModifiedAt = DateTime.Now;
 
@@ -55,7 +63,7 @@ namespace checkpanel.Controllers
         }
 
         [HttpPost("{id}")]
-        public IActionResult UpdateItem(int id, string Summary, string Detail, int DueHour, int DueMinute, string Delete)
+        public IActionResult UpdateItem(int id, string Summary, string Detail, int DueHour, int DueMinute, string Sunday, string Monday, string Tuesday, string Wednesday, string Thursday, string Friday, string Saturday, string Delete)
         {
             var item = _context.Items.FirstOrDefault(item => item.Id == id);
 
@@ -70,6 +78,14 @@ namespace checkpanel.Controllers
                 item.Detail = Detail;
                 item.DueHour = DueHour;
                 item.DueMinute = DueMinute;
+
+                item.Sunday = Sunday == "on";
+                item.Monday = Monday == "on";
+                item.Tuesday = Tuesday == "on";
+                item.Wednesday = Wednesday == "on";
+                item.Thursday = Thursday == "on";
+                item.Friday = Friday == "on";
+                item.Saturday = Saturday == "on";
 
                 if (Delete == "on")
                 {
