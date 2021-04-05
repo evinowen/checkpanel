@@ -1,0 +1,3 @@
+sqllocaldb stop mssqllocaldb
+sqllocaldb delete mssqllocaldb
+sqllocaldb start mssqllocaldb

@@ -1,0 +1,37 @@
+﻿@model checkpanel.Models.ListViewModel
+@{
+    ViewData["Title"] = "checkpanel";
+}
+
+<div class="text-center" style="font-size: 1.2em;">
+    @foreach ((ItemModel item, PunchModel punch) in Model.ListSet)
+    {
+    <div class="form-check p-4">
+        <form method="post" action="@Url.Action("PunchItem", "List", new { id = item.Id })">
+            <div>
+                <div class="float-left" style="height: auto; top: 0; bottom: 0;">
+                @if (punch != null)
+                {
+                <button href="#" class="btn btn-success mx-3">✓</button>
+                }
+                else
+                {
+                <button type="submit" class="btn btn-danger mx-3 mb-6">✗</button>
+                }
+                </div>
+                <div class="text-left">
+                <div>@item.Summary</div>
+                    @if (punch != null)
+                    {
+                    <div>Punched at @punch.CreatedAt</div>
+                    }
+                    else
+                    {
+                    <div>Not Punched</div>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+    }
+</div>

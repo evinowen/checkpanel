@@ -1,0 +1,339 @@
+﻿@model IEnumerable<checkpanel.Models.ItemModel>
+
+@{
+    ViewData["Title"] = "checkpanel - configuration";
+}
+
+<div class="text-center" style="font-size: 1.2em;">
+    <div class="accordion" id="items-accordion">
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div class="card-header p-1" id="item-header-@item.Id">
+                    <button class="form-control btn btn-dark btn-outline-primary text-left" type="button" data-toggle="collapse" data-target="#item-collapse-@item.Id" aria-expanded="true" aria-controls="item-collapse-@item.Id">
+                        @item.Summary
+                        <div class="float-right" style="font-family: monospace;">
+                            @{
+                                if (item.Sunday == true && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == true)
+                                {
+                                    <text>All </text>
+                                }
+                                else if (item.Sunday == false && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == false)
+                                {
+                                    <text>Weekdays </text>
+                                }
+                                else if (item.Sunday == true && item.Monday == false && item.Tuesday == false && item.Wednesday == false && item.Thursday == false && item.Friday == false && item.Saturday == true)
+                                {
+                                    <text>Weekends </text>
+                                }
+                                else
+                                {
+                                    if (item.Sunday == true)
+                                    {
+                                        <text>Sun </text>
+                                    }
+                                    if (item.Monday == true)
+                                    {
+                                        <text>Mon </text>
+                                    }
+                                    if (item.Tuesday == true)
+                                    {
+                                        <text>Tue </text>
+                                    }
+                                    if (item.Wednesday == true)
+                                    {
+                                        <text>Wed </text>
+                                    }
+                                    if (item.Thursday == true)
+                                    {
+                                        <text>Thu </text>
+                                    }
+                                    if (item.Friday == true)
+                                    {
+                                        <text>Fri </text>
+                                    }
+                                    if (item.Saturday == true)
+                                    {
+                                        <text>Sat </text>
+                                    }
+                                }
+                            }
+                        </div>
+                    </button>
+                </div>
+                <div id="item-collapse-@item.Id" class="collapse" aria-labelledby="item-header-@item.Id" data-parent="#items-accordion">
+                    <div class="card-body">
+                        <form method="post" action="@Url.Action("UpdateItem", "Configuration" , new { id=item.Id })">
+                            <div class="row">
+                                <div class="col-9 pr-0">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text">Summary</label>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Summary" name="Summary" value="@item.Summary" />
+                                    </div>
+                                </div>
+                                <div class="col-3 pl-0">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text">Due</label>
+                                        </div>
+                                        <select class="form-control" name="DueHour" style="font-family: monospace;">
+                                            @for (var i = 0; i <= 24; i++)
+                                            {
+                                                if (item.DueHour == i)
+                                                {
+                                                <option selected>@string.Format("{0:00}", i)</option>
+                                                }
+                                                else
+                                                {
+                                                <option>@string.Format("{0:00}", i)</option>
+                                                }
+                                            }
+                                        </select>
+                                        <select class="form-control" name="DueMinute" style="font-family: monospace;">
+                                            @for (var i = 0; i < 60; i += 15)
+                                            {
+                                                if (item.DueMinute == i)
+                                                {
+                                                <option selected>@string.Format("{0:00}", i)</option>
+                                                }
+                                                else
+                                                {
+                                                <option>@string.Format("{0:00}", i)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row pb-1 m-auto">
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Sunday == true ? "active" : "")">
+                                            <input name="Sunday" type="checkbox" @(item.Sunday == true ? "checked" : "") autocomplete="off"> Sunday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Monday == true ? "active" : "")">
+                                            <input name="Monday" type="checkbox" @(item.Monday == true ? "checked" : "") autocomplete="off"> Monday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Tuesday == true ? "active" : "")">
+                                            <input name="Tuesday" type="checkbox" @(item.Tuesday == true ? "checked" : "") autocomplete="off"> Tuesday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Wednesday == true ? "active" : "")">
+                                            <input name="Wednesday" type="checkbox" @(item.Wednesday == true ? "checked" : "") autocomplete="off"> Wednesday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Thursday == true ? "active" : "")">
+                                            <input name="Thursday" type="checkbox" @(item.Thursday == true ? "checked" : "") autocomplete="off"> Thursday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Friday == true ? "active" : "")">
+                                            <input name="Friday" type="checkbox" @(item.Friday == true ? "checked" : "") autocomplete="off"> Friday
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col no-gutters p-1">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary @(item.Saturday == true ? "active" : "")">
+                                            <input name="Saturday" type="checkbox" @(item.Saturday == true ? "checked" : "") autocomplete="off"> Saturday
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text">Detail</label>
+                                        </div>
+                                        <textarea class="form-control" name="Detail">@item.Detail</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card mb-1">
+                                        <div class="card-header" id="item-header-delete-@item.Id">
+                                            <button class="form-control btn btn-danger" type="button" data-toggle="collapse" data-target="#item-collapse-delete-@item.Id" aria-expanded="false" aria-controls="item-collapse-delete-@item.Id">Delete?</button>
+                                        </div>
+                                        <div id="item-collapse-delete-@item.Id" class="collapse" aria-labelledby="item-header-delete-@item.Id" data-parent="#item-collapse-@item.Id">
+                                            <div class="card-body">
+                                                <input name="Delete" type="checkbox" onChange="this.form.submit()" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <button class="form-control btn btn-success" type="submit">Save!</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div class="card">
+        <div class="card-header p-1">
+            <button class="form-control btn btn-dark btn-outline-light text-left" type="button" disabled>
+                New Item <div class="float-right" style="font-family: monospace;">--:--</div>
+            </button>
+        </div>
+        <div>
+            <div class="card-body">
+                <form method="post" action="@Url.Action("AddItem", "Configuration")">
+
+                    <div class="row">
+                        <div class="col-9 pr-0">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Summary</label>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Summary" name="Summary" />
+                            </div>
+                        </div>
+                        <div class="col-3 pl-0">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Due</label>
+                                </div>
+                                <select class="form-control" name="DueHour" style="font-family: monospace;">
+                                    @for (var i = 0; i <= 24; i++)
+                                    {
+                                        if (i == 24)
+                                        {
+                                        <option selected>@string.Format("{0:00}", i)</option>
+                                        }
+                                        else
+                                        {
+                                        <option>@string.Format("{0:00}", i)</option>
+                                        }
+                                    }
+                                </select>
+                                <select class="form-control" name="DueMinute" style="font-family: monospace;">
+                                    @for (var i = 0; i < 60; i += 15)
+                                    {
+                                        if (i == 0)
+                                        {
+                                        <option selected>@string.Format("{0:00}", i)</option>
+                                        }
+                                        else
+                                        {
+                                        <option>@string.Format("{0:00}", i)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pb-1 m-auto">
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Sunday" type="checkbox" checked autocomplete="off"> Sunday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Monday" type="checkbox" checked autocomplete="off"> Monday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Tuesday" type="checkbox" checked autocomplete="off"> Tuesday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Wednesday" type="checkbox" checked autocomplete="off"> Wednesday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Thursday" type="checkbox" checked autocomplete="off"> Thursday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Friday" type="checkbox" checked autocomplete="off"> Friday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col no-gutters p-1">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input name="Saturday" type="checkbox" checked autocomplete="off"> Saturday
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Detail</label>
+                                </div>
+                                <textarea class="form-control" name="Detail"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <button class="form-control btn btn-success" type="submit">Save!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
