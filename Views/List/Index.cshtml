@@ -23,16 +23,21 @@
                 }
                 </div>
                 <div class="text-left">
-                <div>@item.Summary</div>
+                    <div>@item.Summary</div>
                     @if (punch != null)
                     {
-                    <div>Punched at @punch.CreatedAt</div>
+                    <div style="font-size: 0.8em; color: #AAA">
+                        Punched at @punch.CreatedAt
+                    </div>
                     }
                     else
                     {
-                    <div>Not Punched</div>
+                    <div style="font-size: 0.8em; color: #666">
+                        Not Punched
+                    </div>
                     }
                 </div>
+                <div style="margin-top: 4px; border-top: 1px solid black; font-size: 0.7em; color: #666">
                 @{
                     if (item.Sunday == true && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == true)
                     {
@@ -78,6 +83,7 @@
                         }
                     }
                 }
+                </div>
             </div>
         </form>
     </div>
