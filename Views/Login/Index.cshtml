@@ -6,7 +6,14 @@
     </div>
     <div class="card-body">
         <form method="post" action="@Url.Action("Validate", "Login")">
-            <input type="text" class="form-control text-center" placeholder="000000" name="Authentication" />
+            <input name="Authentication"
+                   class="form-control text-center"
+                   type="text"
+                   inputmode="numeric"
+                   placeholder="000000"
+                   pattern="[0-9]*"
+                   autocomplete="one-time-code"
+            />
             <button class="form-control btn btn-primary mt-3" type="submit">Submit</button>
         </form>
     </div>
