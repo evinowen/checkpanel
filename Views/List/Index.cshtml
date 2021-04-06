@@ -4,7 +4,9 @@
 }
 
 <div class="text-center" style="font-size: 1.2em;">
-    <h1>@DateTime.Now.DayOfWeek</h1>
+    <div style="background: rgba(0, 0, 0, 0.3); padding: 16px 0;">
+        <h1>@DateTime.Now.DayOfWeek</h1>
+    </div>
     @foreach ((ItemModel item, PunchModel punch) in Model.ListSet)
     {
     <div class="form-check p-4">
@@ -21,16 +23,21 @@
                 }
                 </div>
                 <div class="text-left">
-                <div>@item.Summary</div>
+                    <div>@item.Summary</div>
                     @if (punch != null)
                     {
-                    <div>Punched at @punch.CreatedAt</div>
+                    <div style="font-size: 0.8em; color: #AAA">
+                        Punched at @punch.CreatedAt
+                    </div>
                     }
                     else
                     {
-                    <div>Not Punched</div>
+                    <div style="font-size: 0.8em; color: #666">
+                        Not Punched
+                    </div>
                     }
                 </div>
+                <div style="margin-top: 4px; border-top: 1px solid black; font-size: 0.7em; color: #666">
                 @{
                     if (item.Sunday == true && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == true)
                     {
@@ -76,6 +83,7 @@
                         }
                     }
                 }
+                </div>
             </div>
         </form>
     </div>
