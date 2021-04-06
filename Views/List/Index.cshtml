@@ -4,6 +4,7 @@
 }
 
 <div class="text-center" style="font-size: 1.2em;">
+    <h1>@DateTime.Now.DayOfWeek</h1>
     @foreach ((ItemModel item, PunchModel punch) in Model.ListSet)
     {
     <div class="form-check p-4">
@@ -30,6 +31,51 @@
                     <div>Not Punched</div>
                     }
                 </div>
+                @{
+                    if (item.Sunday == true && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == true)
+                    {
+                        <text>All </text>
+                    }
+                    else if (item.Sunday == false && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == false)
+                    {
+                        <text>Weekdays </text>
+                    }
+                    else if (item.Sunday == true && item.Monday == false && item.Tuesday == false && item.Wednesday == false && item.Thursday == false && item.Friday == false && item.Saturday == true)
+                    {
+                        <text>Weekends </text>
+                    }
+                    else
+                    {
+                        if (item.Sunday == true)
+                        {
+                            <text>Sun </text>
+                        }
+                        if (item.Monday == true)
+                        {
+                            <text>Mon </text>
+                        }
+                        if (item.Tuesday == true)
+                        {
+                            <text>Tue </text>
+                        }
+                        if (item.Wednesday == true)
+                        {
+                            <text>Wed </text>
+                        }
+                        if (item.Thursday == true)
+                        {
+                            <text>Thu </text>
+                        }
+                        if (item.Friday == true)
+                        {
+                            <text>Fri </text>
+                        }
+                        if (item.Saturday == true)
+                        {
+                            <text>Sat </text>
+                        }
+                    }
+                }
             </div>
         </form>
     </div>
