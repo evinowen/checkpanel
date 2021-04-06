@@ -89,7 +89,7 @@ namespace checkpanel.Controllers
                     continue;
                 }
 
-                var twilio_telephone_to = _configuration["TWILIO_TELEPHONE_TO"];
+                var sms_telephone = _configuration["SMS_TELEPHONE"];
 
                 var queue_connection_string = _configuration["AZURE_QUEUE_CONNECTION"];
                 var queue_name = _configuration["AZURE_QUEUE_SEND_DEADLINE_NOTICE"];
@@ -100,7 +100,7 @@ namespace checkpanel.Controllers
                 {
                     Summary = item.Summary,
                     Deadline = ((item.DueHour * 60) + item.DueMinute - deadline_minutes),
-                    Telephone = twilio_telephone_to
+                    Telephone = sms_telephone
                 };
 
                 var options = new JsonSerializerOptions
