@@ -61,6 +61,18 @@ namespace checkpanel.Controllers
                 model.ListSet.Add((item, punches.Count > 0 ? punches.First() : null));
             }
 
+            model.ListSet.Sort((first, second) =>
+            {
+                if (first.Item1.DueHour == second.Item1.DueHour)
+                {
+                    return first.Item1.DueMinute.CompareTo(second.Item1.DueMinute);
+                }
+                else
+                {
+                    return first.Item1.DueHour.CompareTo(second.Item1.DueHour);
+                }
+            });
+
             return View(model);
         }
 
