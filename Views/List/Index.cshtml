@@ -4,8 +4,11 @@
 }
 
 <div class="text-center" style="font-size: 1.2em;">
-    <div style="background: rgba(0, 0, 0, 0.3); padding: 16px 0;">
+    <div style="background: rgba(0, 0, 0, 0.3); padding: 16px;">
         <h1>@DateTime.Now.DayOfWeek</h1>
+        <div style="margin-top: 8px; border-top: 1px solid black; padding-top: 8px; color: #666; ">
+            <strong>@DateTime.Now.ToString("H:mm")</strong>
+        </div>
     </div>
     @foreach ((ItemModel item, PunchModel punch) in Model.ListSet)
     {
