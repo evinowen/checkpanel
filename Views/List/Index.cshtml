@@ -10,30 +10,30 @@
             <strong>@DateTime.Now.ToString("H:mm")</strong>
         </div>
     </div>
-    @foreach ((ItemModel item, PunchModel punch) in Model.ListSet)
+    @foreach ((ItemModel item, PunchModel punch, DateTime due) in Model.ListSet)
     {
-    <div class="form-check p-4">
+    <div class="form-check p-4" style="background-color: rgba(128, 128, 128, @(due.CompareTo(DateTime.Now) > 0 ? (due.AddHours(-1).CompareTo(DateTime.Now) > 0 ? "0" : "0.2") : "0.1"));">
         <form method="post" action="@Url.Action("PunchItem", "List", new { id = item.Id })">
             <div>
-                <div style="float: left; font-weight: bold; margin-top: 12px;">
+                <div style="float: left; margin-top: 12px;">
                 @if (punch != null)
                 {
-                <button href="#" class="btn btn-success mx-3">✓</button>
+                <button href="#" class="btn btn-success mx-3" style="font-weight: bold;" disabled>✓</button>
                 }
                 else
                 {
-                <button type="submit" class="btn btn-danger mx-3 mb-6">✗</button>
+                <button type="submit" class="btn btn-danger mx-3 mb-6" style="font-weight: bold;" @(due.CompareTo(DateTime.Now) > 0 ? "" : "disabled")>✗</button>
                 }
                 </div>
                 <div style="float: left; top: 0; bottom: 0;">
-                    <div style="font-size: 0.6em; color: @(punch != null ? "#6A6" : "#A22") ; font-variant-caps: " all-small-caps">
+                    <div style="font-size: 0.6em; color: @(punch != null ? "#6A6" : (due.AddHours(-1).CompareTo(DateTime.Now) > 0 ? "#888" : "#A22")); font-variant-caps: 'all-small-caps'">
                         @(punch != null ? "Complete" : $"Due at {item.DueHour}:{@item.DueMinute.ToString("00")}")
                     </div>
-                    <div style="color: @(punch != null ? "#777" : "#EEE")">
+                    <div style="color: @(punch != null ? "#777" : (due.CompareTo(DateTime.Now) > 0 ? "#EEE" : "#A22"))">
                         @item.Summary
                     </div>
-                    <div style="font-size: 0.7em; color: @(punch != null ? "#666" : "#AAA")">
-                        @(punch != null ? $"Punched at {punch.CreatedAt}" : "Not Punched")
+                    <div style="font-size: 0.7em; color: @(punch != null ? "#666" : (due.CompareTo(DateTime.Now) > 0 ? "#AAA" : "#A22"))">
+                        @(punch != null ? $"Punched at {punch.CreatedAt}" : (due.CompareTo(DateTime.Now) > 0 ? "Not Punched" : "Missed Punch"))
                     </div>
                 </div>
                 <div style="clear: both;"></div>

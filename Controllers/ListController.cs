@@ -58,20 +58,11 @@ namespace checkpanel.Controllers
             foreach (var item in items.ToList())
             {
                 var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Now.Date).ToList();
-                model.ListSet.Add((item, punches.Count > 0 ? punches.First() : null));
+                var due = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, item.DueHour, item.DueMinute, 0);
+                model.ListSet.Add((item, punches.Count > 0 ? punches.First() : null, due));
             }
 
-            model.ListSet.Sort((first, second) =>
-            {
-                if (first.Item1.DueHour == second.Item1.DueHour)
-                {
-                    return first.Item1.DueMinute.CompareTo(second.Item1.DueMinute);
-                }
-                else
-                {
-                    return first.Item1.DueHour.CompareTo(second.Item1.DueHour);
-                }
-            });
+            model.ListSet.Sort((first, second) => first.Item3.CompareTo(second.Item3));
 
             return View(model);
         }
