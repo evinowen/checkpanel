@@ -7,9 +7,9 @@ namespace checkpanel.Models
     {
         public ListViewModel()
         {
-            this.ListSet = new List<(ItemModel, PunchModel)>();
+            this.ListSet = new List<(ItemModel, PunchModel, DateTime)>();
         }
 
-        public List<(ItemModel, PunchModel)> ListSet;
+        public List<(ItemModel, PunchModel, DateTime)> ListSet;
     }
 }
