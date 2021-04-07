@@ -15,7 +15,7 @@
     <div class="form-check p-4">
         <form method="post" action="@Url.Action("PunchItem", "List", new { id = item.Id })">
             <div>
-                <div style="float: left;">
+                <div style="float: left; font-weight: bold; margin-top: 12px;">
                 @if (punch != null)
                 {
                 <button href="#" class="btn btn-success mx-3">✓</button>
@@ -26,34 +26,18 @@
                 }
                 </div>
                 <div style="float: left; top: 0; bottom: 0;">
-                    @if (punch != null)
-                    {
-                    <div style="font-size: 0.6em; color: #AAA; font-variant-caps: "all-small-caps">
-                        Complete
+                    <div style="font-size: 0.6em; color: @(punch != null ? "#6A6" : "#A22") ; font-variant-caps: " all-small-caps">
+                        @(punch != null ? "Complete" : $"Due at {item.DueHour}:{@item.DueMinute.ToString("00")}")
                     </div>
-                    }
-                    else
-                    {
-                    <div style="font-size: 0.6em; color: #666; font-variant-caps: "all-small-caps">
-                        Due at @item.DueHour:@item.DueMinute.ToString("00")
+                    <div style="color: @(punch != null ? "#777" : "#EEE")">
+                        @item.Summary
                     </div>
-                    }
-                    <div>@item.Summary</div>
-                    @if (punch != null)
-                    {
-                    <div style="font-size: 0.7em; color: #AAA">
-                        Punched at @punch.CreatedAt
+                    <div style="font-size: 0.7em; color: @(punch != null ? "#666" : "#AAA")">
+                        @(punch != null ? $"Punched at {punch.CreatedAt}" : "Not Punched")
                     </div>
-                    }
-                    else
-                    {
-                    <div style="font-size: 0.7em; color: #666">
-                        Not Punched
-                    </div>
-                    }
                 </div>
                 <div style="clear: both;"></div>
-                <div style="margin-top: 4px; border-top: 1px solid black; text-align: center; font-size: 0.7em; color: #666">
+                <div style="margin-top: 4px; border-top: 1px solid black; text-align: center; font-size: 0.7em; color: @(punch != null ? "#666" : "#AAA")">
                 @{
                     if (item.Sunday == true && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == true)
                     {
