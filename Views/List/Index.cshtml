@@ -3,8 +3,8 @@
     ViewData["Title"] = "checkpanel";
 }
 
-<div class="text-center" style="font-size: 1.2em;">
-    <div style="background: rgba(0, 0, 0, 0.3); padding: 16px;">
+<div style="font-size: 1.2em;">
+    <div class="text-center" style="background: rgba(0, 0, 0, 0.3); padding: 16px;">
         <h1>@DateTime.Now.DayOfWeek</h1>
         <div style="margin-top: 8px; border-top: 1px solid black; padding-top: 8px; color: #666; ">
             <strong>@DateTime.Now.ToString("H:mm")</strong>
@@ -15,7 +15,7 @@
     <div class="form-check p-4">
         <form method="post" action="@Url.Action("PunchItem", "List", new { id = item.Id })">
             <div>
-                <div class="float-left" style="height: auto; top: 0; bottom: 0;">
+                <div style="float: left;">
                 @if (punch != null)
                 {
                 <button href="#" class="btn btn-success mx-3">✓</button>
@@ -25,22 +25,35 @@
                 <button type="submit" class="btn btn-danger mx-3 mb-6">✗</button>
                 }
                 </div>
-                <div class="text-left">
+                <div style="float: left; top: 0; bottom: 0;">
+                    @if (punch != null)
+                    {
+                    <div style="font-size: 0.6em; color: #AAA; font-variant-caps: "all-small-caps">
+                        Complete
+                    </div>
+                    }
+                    else
+                    {
+                    <div style="font-size: 0.6em; color: #666; font-variant-caps: "all-small-caps">
+                        Due at @item.DueHour:@item.DueMinute.ToString("00")
+                    </div>
+                    }
                     <div>@item.Summary</div>
                     @if (punch != null)
                     {
-                    <div style="font-size: 0.8em; color: #AAA">
+                    <div style="font-size: 0.7em; color: #AAA">
                         Punched at @punch.CreatedAt
                     </div>
                     }
                     else
                     {
-                    <div style="font-size: 0.8em; color: #666">
+                    <div style="font-size: 0.7em; color: #666">
                         Not Punched
                     </div>
                     }
                 </div>
-                <div style="margin-top: 4px; border-top: 1px solid black; font-size: 0.7em; color: #666">
+                <div style="clear: both;"></div>
+                <div style="margin-top: 4px; border-top: 1px solid black; text-align: center; font-size: 0.7em; color: #666">
                 @{
                     if (item.Sunday == true && item.Monday == true && item.Tuesday == true && item.Wednesday == true && item.Thursday == true && item.Friday == true && item.Saturday == true)
                     {
