@@ -57,8 +57,18 @@ namespace checkpanel.Controllers
 
             foreach (var item in items.ToList())
             {
-                var punches = _context.Entry(item).Collection(p => p.Punches).Query().Where(p => p.CreatedAt.Date == DateTime.Now.Date).ToList();
-                var due = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, item.DueHour, item.DueMinute, 0);
+                var today = DateTime.Today;
+
+                var punches = _context.Entry(item)
+                    .Collection(p => p.Punches)
+                    .Query()
+                    .Where(p => p.Year == today.Year)
+                    .Where(p => p.Month == today.Month)
+                    .Where(p => p.Day == today.Day)
+                    .ToList();
+
+                DateTime due = today.AddHours(item.DueHour).AddMinutes(item.DueMinute);
+
                 model.ListSet.Add((item, punches.Count > 0 ? punches.First() : null, due));
             }
 
@@ -78,7 +88,16 @@ namespace checkpanel.Controllers
                 history.CaptureBeforeData(item);
                 _context.Histories.Add(history);
 
-                var punch = new PunchModel{ Item = item, CreatedAt = DateTime.Now };
+                var today = DateTime.Today;
+
+                var punch = new PunchModel{
+                    Item = item,
+                    Year = today.Year,
+                    Month = today.Month,
+                    Day = today.Day,
+                    CreatedAt = DateTime.Now
+                };
+
                 _context.Punches.Add(punch);
 
                 _context.SaveChanges();
