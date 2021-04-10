@@ -8,6 +8,9 @@ namespace checkpanel.Models
     {
         public int Id { get; set; }
         public ItemModel Item { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public int Day { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
